@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Alumno;
 use App\CursoSemestre;
+use App\Alumnocurso;
 
 class AlumnoController extends Controller
 {
@@ -57,6 +58,30 @@ class AlumnoController extends Controller
         }
     }
 
+    public function vCurso($id, $dia){
+        $curso = Alumno::where([
+            ['alumnos.idAlumno', "=", $id],
+            ['cursos.dia', '=', $dia]])
+            ->join('alumnocursos', 'alumnos.idAlumno', '=', 'alumnocursos.idAlumno')
+            ->join('cursos', 'alumnocursos.idCurso', '=', 'cursos.idCurso')
+            ->get()->first();
+
+            if(is_object($curso)){
+                $data = array(
+                    'code' => '200',
+                    'message' => 'Si hay cursos'
+                );
+            }else{
+                $data = array(
+                    'code' => '400',
+                    'message' => 'No hay cursos'
+                );      
+            }
+
+        return response() -> json($data, $data['code']);
+    }
+
+    
     public function register(Request $request){
         try{
             $json = $request -> input('json');

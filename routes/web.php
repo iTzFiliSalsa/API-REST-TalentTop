@@ -19,4 +19,5 @@ Route::post('/login', 'AlumnoController@login');
 Route::post('/register', 'AlumnoController@register');
 Route::get('/horarios', 'CursoController@horarios');
 Route::get('/cursos/{dia}/{semestre}', 'CursoController@cursos');
+Route::get('/comprobar/{id}/{dia}', 'AlumnoController@vCurso');
 Route::post('/cursos', 'CursoController@aCurso');
